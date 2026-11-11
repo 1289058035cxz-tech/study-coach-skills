@@ -1,0 +1,2 @@
+# zoneinfo uses the system database on macOS/Linux; Windows needs this package.
+tzdata; platform_system == "Windows"

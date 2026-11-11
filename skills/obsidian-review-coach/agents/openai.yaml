@@ -1,0 +1,4 @@
+interface:
+  display_name: "笔记复习教练"
+  short_description: "结合 Obsidian 笔记与历史画像，在新情境中混合测验并诊断独立运用能力"
+  default_prompt: "使用 $obsidian-review-coach，结合我要复习科目的 Obsidian 笔记、易错点和历史画像，先进行知识诊断，再出一套不标考点、题型与难度混排的新情境测验，提交后诊断并复测薄弱点。"

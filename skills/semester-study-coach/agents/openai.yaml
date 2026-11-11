@@ -1,0 +1,4 @@
+interface:
+  display_name: "学期学习教练"
+  short_description: "结合课程资料与能力画像以题带学，通过独立测试补弱，按需整理 Obsidian 笔记"
+  default_prompt: "使用 $semester-study-coach 开始今天的课程学习，先读取学期进度和我的学科画像，依据现有材料确定范围，以代表题教我知识和解题方法，再用新题独立测试；资料不足时按已知章节暂定训练，等我要求整理笔记时归档。"
