@@ -1,18 +1,8 @@
-# GitHub 发布指南
+# 更新已有 GitHub 仓库与发布版本
 
-## 名称与简介
+当前仓库版本为 **v0.2.0**；旧版更新记录为 v0.1.0。本次更新已有仓库，无需新建仓库或重新执行 `git init`。版本号保存在根目录 `VERSION`，学期学习教练的版本同时记录在其 `SKILL.md` 的 `metadata.version`；每次发布同步维护版本与 CHANGELOG。
 
-- 仓库名称：`study-coach-skills`
-- 中文名称：学期与复习教练
-- GitHub 简介：`中文 Codex 学习与复习 skills：以题带学、新情境混合测验、证据驱动的能力画像与 Obsidian 笔记整理。`
-- Topics：`codex`、`agent-skills`、`study`、`learning`、`obsidian`、`chinese`
-- 首版标签：`v0.1.0`
-- Release 标题：`v0.1.0 · 学期与复习教练`
-- 许可证：MIT，版权署名使用项目贡献者，不要求公开真实姓名。
-
-名称是项目选定名称，未声称已经查询或保留 GitHub 仓库名。仓库名位于你自己的账号或组织下；如已有同名仓库，可改为 `study-review-coach-skills`，两个 skill 的英文名称无需改动。
-
-## 发布前检查
+## 上传前检查
 
 在仓库根目录运行：
 
@@ -21,34 +11,59 @@ python3 scripts/check_release.py
 python3 -m unittest discover -s tests -v
 ```
 
-首次发布不运行真实课程训练、不初始化自己的 `state/`。检查脚本会拒绝个人状态、缓存与运行产物；它不是通用秘密扫描工具，新增文件仍需自行审阅。
+Windows 将 `python3` 换成 `python`。测试只使用临时目录与虚构数据，不初始化真实课程状态。发行文件中保留 `.gitignore` 和 `.github/workflows/checks.yml`；它们用于排除运行状态与执行 CI，不能因文件名以点开头而漏传。
 
-## 建立仓库并上传
+## 方法一：通过 GitHub 网页更新
 
-1. 在 GitHub 新建名为 `study-coach-skills` 的 Public 仓库。仓库简介使用上面的文案；README、许可证和忽略文件已包含，不必让 GitHub 重复生成。
-2. 将本项目整个目录作为仓库根目录。推荐使用 Git 或 GitHub Desktop 上传，确保 `.gitignore` 和 `.github/workflows/checks.yml` 也被包含。
-3. 首次提交信息可用 `Prepare initial public release`。不要把上层目录、原始私人 skills 或发布压缩包一起提交。
-4. 推送后在 Actions 查看 Linux、macOS、Windows 的实际结果；有失败则修复后再发布。自动测试未验证模型真实教学质量，也不代表所有宿主工具已兼容。
+1. 解压完整仓库包或增量文件包，找到包含 `README.md`、`CHANGELOG.md`、`VERSION`、`skills/` 的那一层。增量文件包只含本次新增/修改文件，必须合并进已有仓库，不能单独安装。
+2. 打开已有仓库根页面，点击 **Add file → Upload files**。
+3. 将该层里面的文件和文件夹拖入上传区，保持原路径；不要把外层包装目录或 ZIP 本身当源码上传。例如学期学习教练入口必须仍为 `skills/semester-study-coach/SKILL.md`。
+4. 在上传列表确认同名文件按原路径更新；`.gitignore` 与 `.github/workflows/checks.yml` 必须在列表中。macOS Finder 可用 `Command + Shift + .` 显示隐藏项。若拖入后仍遗漏，使用 **Add file → Create new file** 分别填写这两个完整文件名并粘贴对应文件内容。
+5. 提交标题使用 `Release v0.2.0: improve semester study workflow`。可提交到新的 `release/v0.2.0` 分支，再通过 Pull Request 合并；若界面允许且你选择直接提交到 `main`，同样先审阅改动路径。分支保护要求 PR 时按界面执行。
+6. 在 **Code** 检查目录和版本，在 **Actions** 检查本次提交对应的 `Check release` 运行；若走 PR，则在通过检查后合并，并确认 `main` 对应检查通过。
 
-若熟悉 Git，可以在本目录内执行以下命令；`你的用户名` 应替换为实际账号。远端仓库须已创建且为空：
+`.gitignore` 不会自动取消已被 Git 跟踪的私人文件；本次发布包不含任何真实 `state/`。上传只使用准备好的公共文件，不复制个人 skill 安装目录。
+
+## 方法二：通过 Git 或 GitHub Desktop 更新
+
+克隆已有仓库，把增量包内容按原路径合并进去，查看 Changes/diff，再提交与推送。GitHub Desktop 使用 **Clone repository → Changes → Commit → Push origin**；不要选择创建第二个仓库。终端示例：
 
 ```sh
-git init -b main
-git add .
+git clone https://github.com/1289058035cxz-tech/study-coach-skills.git
+cd study-coach-skills
+# 在这里合并增量包，保留 .git 和既有未更新文件
+python3 scripts/check_release.py
+python3 -m unittest discover -s tests -v
+git diff --check
 git status --short
-git commit -m "Prepare initial public release"
-git remote add origin "https://github.com/你的用户名/study-coach-skills.git"
-git push -u origin main
+git add README.md CHANGELOG.md VERSION .gitignore .github docs skills/semester-study-coach
+git diff --cached --stat
+git commit -m "Release v0.2.0: improve semester study workflow"
+git push origin main
 ```
 
-## 发布首版
+这些命令供仓库所有者审阅后执行，本文件不代表已经提交或推送。已有本地仓库时进入原目录，先处理自己的未提交改动并同步，不覆盖本地工作。
 
-在仓库 Releases 中创建 `v0.1.0`，目标选择已检查通过的 `main` 提交。可复制以下说明：
+## 创建 v0.2.0 Release
 
-> 学期与复习教练的首个公开版本，包含 `semester-study-coach` 与 `obsidian-review-coach`。支持课程资料分析、以题带学、答疑、新情境混合测验，以及共享的分学科能力画像和按需 Obsidian 整理。发行版不含个人学习状态，首次使用会引导配置。安装方法见 README。
+源码已经进入 `main` 且该提交检查通过后：
 
-实际跨平台结果以本次 Actions 为准；不要把未运行的平台写成已验证。GitHub 会提供源码下载，不必上传私人配置或额外运行产物。
+1. 打开仓库的 **Releases → Draft a new release**。
+2. 在标签处输入并创建 **v0.2.0**，Target 选择包含更新的 `main` 提交。不要把新标签指向更新前的提交。
+3. 标题填写 **v0.2.0 · 术语覆盖、规范答案与分段讲练**。
+4. 描述复制 [本次 Release 文案](RELEASE-v0.2.0.md)。文案中的本地验证不等于 GitHub Actions 已经运行。
+5. 可附上公开完整源码包作为附件；不要附增量包冒充完整安装包。GitHub 也会为标签提供源码下载。
+6. 审阅后点击 **Publish release**；还没准备发布则保存草稿。若设置了不可变 Release，先完成附件与审阅再发布。
 
-## 发布后的维护
+仓库许可沿用现有 MIT，保留 [LICENSE](../LICENSE)。不要重复创建旧版标签；如果之前只上传了源码、没有创建 v0.1.0 Release，可以直接为本次新提交发布 v0.2.0，无需补造历史发布记录。
 
-从公共仓库维护方法文件，把真实学习状态留在本地。修复后更新 `CHANGELOG.md`；提供复现例子时使用虚构数据。安装工具会拒绝覆盖已有安装，更新时先备份 `state/`，再审阅并合并新方法文件。
+## 已安装用户更新 skill
+
+先备份本地已安装目录。将新版 `skills/semester-study-coach/` 的 `SKILL.md`、`agents/openai.yaml`、`references/teaching-workflow.md`、`references/memory-and-notes.md` 合并至本地同名位置；公开版首次配置文档和脚本沿用已有公开实现。本次不要求重新初始化或迁移画像，完整保留个人 `state/`。另一个 skill 无需更新。安装工具仍拒绝覆盖已有安装，不能通过删除状态来绕过。
+
+发布包中不含个人状态；不要从更新包反向删除本地私有文件。重新打开会话并确认入口版本为 0.2.0，再使用实际课程验证新节奏。
+
+## 官方操作参考
+
+- [上传文件](https://docs.github.com/en/repositories/working-with-files/managing-files/adding-a-file-to-a-repository)
+- [管理 Release](https://docs.github.com/en/repositories/releasing-projects-on-github/managing-releases-in-a-repository)
