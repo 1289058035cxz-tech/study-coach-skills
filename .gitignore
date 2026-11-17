@@ -1,0 +1,15 @@
+# Private runtime state, shared by the two installed skills
+state/
+**/state/
+
+# Python caches and local environments
+__pycache__/
+*.py[cod]
+*.lock
+.venv/
+venv/
+
+# Local editor and OS files
+.DS_Store
+.idea/
+.vscode/
