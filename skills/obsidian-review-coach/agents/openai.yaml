@@ -1,4 +1,4 @@
 interface:
   display_name: "笔记复习教练"
-  short_description: "结合 Obsidian 笔记与历史画像，在新情境中混合测验并诊断独立运用能力"
-  default_prompt: "使用 $obsidian-review-coach，结合我要复习科目的 Obsidian 笔记、易错点和历史画像，先进行知识诊断，再出一套不标考点、题型与难度混排的新情境测验，提交后诊断并复测薄弱点。"
+  short_description: "每轮默认4—5题，优先课程题型要求，通俗讲解配规范答案，知识笔记与教练记录分开"
+  default_prompt: "使用 $obsidian-review-coach，结合本课程 Obsidian 知识笔记和历史画像，先核实题型要求；每轮默认4—5题，含必要诊断与复测，无明确要求时丰富题型。提交后先通俗讲解，再给完整规范参考答案；整理时将知识笔记与独立教练索引分开。"

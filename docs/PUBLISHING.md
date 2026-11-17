@@ -1,6 +1,14 @@
 # 更新已有 GitHub 仓库与发布版本
 
-当前仓库版本为 **v0.2.0**；旧版更新记录为 v0.1.0。本次更新已有仓库，无需新建仓库或重新执行 `git init`。版本号保存在根目录 `VERSION`，学期学习教练的版本同时记录在其 `SKILL.md` 的 `metadata.version`；每次发布同步维护版本与 CHANGELOG。
+当前已发布版本为 **v0.2.0**；笔记复习教练此次调整处于“未发布”状态，VERSION 暂不变。下列 v0.2.0 Release 步骤保留为历史版本操作参考。旧版更新记录为 v0.1.0。本次更新已有仓库，无需新建仓库或重新执行 `git init`。版本号保存在根目录 `VERSION`，学期学习教练的版本同时记录在其 `SKILL.md` 的 `metadata.version`；每次发布同步维护版本与 CHANGELOG。
+
+## 本次复习教练增量更新（未发布）
+
+更新包只含新增/修改文件，解压后把其中内容按原路径合并到现有仓库根目录；网页上传时拖入该层的文件与目录，不上传 ZIP 或外层包装目录。不要求本次包包含未修改的 VERSION、`.gitignore` 或 CI；保留仓库中原有文件。
+
+本次 skill 文件为 `skills/obsidian-review-coach/SKILL.md`、`agents/openai.yaml`、`references/assessment.md`、`references/integration.md`（后三项相对该 skill 目录）；其余为同步的说明与验证记录。提交标题可用 `Improve review question groups and separate coach records`。审阅 diff、运行下列检查，再由仓库所有者提交并上传。本次准备不创建标签或发布新 Release。
+
+本地已安装用户先备份对应四个文件，再按 skill 内相对路径更新 `obsidian-review-coach`；完整保留 `semester-study-coach/state/` 和其他个人文件。无需重新初始化、安装或迁移画像。规则更新不自动重整真实笔记，后续实际整理按新分工执行。
 
 ## 上传前检查
 
